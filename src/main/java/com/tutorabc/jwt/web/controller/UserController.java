@@ -1,5 +1,6 @@
 package com.tutorabc.jwt.web.controller;
 
+import com.tutorabc.jwt.annotation.JwtTokenRequire;
 import com.tutorabc.jwt.entity.User;
 import com.tutorabc.jwt.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping("/all")
+    @JwtTokenRequire
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }

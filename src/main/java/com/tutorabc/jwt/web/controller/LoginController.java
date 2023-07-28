@@ -37,6 +37,6 @@ public class LoginController {
         if (jwtService.isTokenValid(token)) {
             return jwtService.getUsernameFromToken(token);
         }
-        return "";
+        return "validate jwt token error";
     }
 }
