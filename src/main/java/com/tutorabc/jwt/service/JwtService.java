@@ -12,8 +12,6 @@ public class JwtService {
 
     private SettingService settingService;
 
-    private static final long JWT_EXPIRATION_TIME = 60 * 1000; // 一分鐘
-
     @Autowired
     public JwtService(SettingService settingService) {
         this.settingService = settingService;
@@ -22,8 +20,9 @@ public class JwtService {
     public String generateToken(String username) {
 
         String jwtSalt = settingService.findJwtSalt();
+        Integer jwtExpirationTime = Integer.valueOf(settingService.findJwtExpirationTime());
 
-        Date expirationDate = new Date(System.currentTimeMillis() + JWT_EXPIRATION_TIME);
+        Date expirationDate = new Date(System.currentTimeMillis() + jwtExpirationTime);
 
         JwtBuilder jwtBuilder = Jwts.builder()
                 .claim("username", username)
@@ -47,16 +46,12 @@ public class JwtService {
 
     public boolean isTokenValid(String token) {
         String jwtSalt = settingService.findJwtSalt();
-        try {
-            Date expirationDate = Jwts.parser()
-                    .setSigningKey(jwtSalt)
-                    .parseClaimsJws(token)
-                    .getBody()
-                    .getExpiration();
-            return expirationDate.after(new Date());
-        } catch (JwtException e) {
-            return false;
-        }
+        Date expirationDate = Jwts.parser()
+                .setSigningKey(jwtSalt)
+                .parseClaimsJws(token)
+                .getBody()
+                .getExpiration();
+        return expirationDate.after(new Date());
     }
 
 }
