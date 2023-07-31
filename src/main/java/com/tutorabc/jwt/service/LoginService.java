@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class LoginService {
 
-    private UserService userService;
-    private JwtService jwtService;
+    private final UserService userService;
+    private final JwtService jwtService;
 
     @Autowired
     LoginService(UserService userService, JwtService jwtService) {
