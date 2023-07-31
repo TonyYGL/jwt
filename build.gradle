@@ -11,6 +11,13 @@ java {
 	sourceCompatibility = '1.8'
 }
 
+jar {
+	manifest {
+		attributes 'Main-Class': 'com.tutorabc.jwt.JwtDemoApplication' // 指定您的 Spring Boot 主要入口點
+	}
+}
+
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -43,3 +50,9 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+gradle.buildFinished {
+	// 刪除 SNAPSHOT-plain.jar
+	file("$buildDir/libs/${archivesBaseName}-${version}-plain.jar").delete()
+}
+
