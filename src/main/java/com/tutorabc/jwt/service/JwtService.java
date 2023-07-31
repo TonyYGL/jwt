@@ -10,7 +10,7 @@ import java.util.Date;
 @Service
 public class JwtService {
 
-    private SettingService settingService;
+    private final SettingService settingService;
 
     @Autowired
     public JwtService(SettingService settingService) {
